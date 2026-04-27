@@ -4,6 +4,17 @@ from setuptools import find_packages, setup
 
 package_name = 'color_finder'
 
+
+def package_files(directory):
+    paths = []
+    for path, _, filenames in os.walk(directory):
+        files = [os.path.join(path, filename) for filename in filenames]
+        if files:
+            paths.append((os.path.join('share', package_name, path), files))
+
+    return paths
+
+
 setup(
     name=package_name,
     version='0.0.0',
@@ -11,14 +22,26 @@ setup(
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
+
         ('share/' + package_name, ['package.xml']),
-        (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
-    ],
+
+        (os.path.join('share', package_name, 'launch'),
+            glob('launch/*.launch.py')),
+
+        (os.path.join('share', package_name, 'worlds'),
+            glob('worlds/*')),
+
+        (os.path.join('share', package_name, 'urdf'),
+            glob('urdf/*')),
+
+        (os.path.join('share', package_name, 'config'),
+            glob('config/*')),
+    ] + package_files('models'),
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='empso018',
     maintainer_email='empso018@umn.edu',
-    description='TODO: Package description',
+    description='Color-finding TurtleBot3 ROS2 project',
     license='TODO: License declaration',
     extras_require={
         'test': [

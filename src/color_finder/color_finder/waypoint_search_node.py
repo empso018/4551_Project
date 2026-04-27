@@ -15,6 +15,7 @@ class WaypointSearchNode(Node):
 
         self.object_found = False
         self.object_position = None
+        self.object_reached = False
 
         self.current_goal_index = 0
         self.goal_in_progress = False
@@ -35,6 +36,7 @@ class WaypointSearchNode(Node):
         self.create_subscription(Point, '/object_position', self.object_position_callback, 10)
 
         self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', 10)
+        self.object_reached_pub = self.create_publisher(Bool, '/object_reached', 10)
 
         self.nav_client = ActionClient(
             self,
@@ -47,9 +49,12 @@ class WaypointSearchNode(Node):
     def object_found_callback(self, msg):
         if msg.data and not self.object_found:
             self.get_logger().info('Target object found. Canceling Nav2 waypoint search.')
+            self.object_reached = False
             self.cancel_current_goal()
 
         self.object_found = msg.data
+        if not self.object_found:
+            self.object_position = None
 
     def object_position_callback(self, msg):
         self.object_position = msg
@@ -142,7 +147,12 @@ class WaypointSearchNode(Node):
         else:
             cmd.linear.x = 0.0
             cmd.angular.z = 0.0
-            self.get_logger().info('Reached target object.')
+            if not self.object_reached:
+                self.object_reached = True
+                reached_msg = Bool()
+                reached_msg.data = True
+                self.object_reached_pub.publish(reached_msg)
+                self.get_logger().info('Reached target object.')
 
         self.cmd_vel_pub.publish(cmd)
 
