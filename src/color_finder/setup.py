@@ -30,6 +30,7 @@ setup(
             'target_color = color_finder.target_color_node:main',
             'color_detector = color_finder.color_detector_node:main',
             'robot_controller = color_finder.robot_controller_node:main',
+            'waypoint_search = color_finder.waypoint_search_node:main',
         ],
     },
 )
