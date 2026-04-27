@@ -15,6 +15,7 @@ class ColorDetectorNode(Node):
 
         self.bridge = CvBridge()
         self.target_color = 'red'
+        self.last_logged_color = None
 
         self.create_subscription(String, '/target_color', self.color_callback, 10)
         self.create_subscription(Image, '/camera/image_raw', self.image_callback, 10)
@@ -23,7 +24,13 @@ class ColorDetectorNode(Node):
         self.object_position_pub = self.create_publisher(Point, '/object_position', 10)
 
     def color_callback(self, msg):
-        self.target_color = msg.data.lower()
+        new_color = msg.data.lower()
+        self.target_color = new_color
+
+        if new_color == self.last_logged_color:
+            return
+
+        self.last_logged_color = new_color
         self.get_logger().info(f'Now searching for: {self.target_color}')
 
     def image_callback(self, msg):
