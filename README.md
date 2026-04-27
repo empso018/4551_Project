@@ -11,6 +11,9 @@ To initialize workspace:
 $ colcon build
 $ source install/setup.bash
 
+---How to Run---
+$ ros2 launch color_finder nav2_search.launch.py
+
 * Rebuild everytime you update the code
 * Source bash everytime you open a new terminal
 
