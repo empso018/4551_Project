@@ -1,3 +1,5 @@
+import os
+from glob import glob
 from setuptools import find_packages, setup
 
 package_name = 'color_finder'
@@ -10,6 +12,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -24,6 +27,9 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'target_color = color_finder.target_color_node:main',
+            'color_detector = color_finder.color_detector_node:main',
+            'robot_controller = color_finder.robot_controller_node:main',
         ],
     },
 )
