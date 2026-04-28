@@ -180,8 +180,17 @@ class WaypointSearchNode(Node):
             return
 
         self.last_log_times[key] = now
-        log_method = getattr(self.get_logger(), level)
-        log_method(message)
+
+        # Updated this to avoid rclpy severity error present in some package versions (like mine)
+        logger = self.get_logger()
+        if level == 'info':
+            logger.info(message)
+        elif level == 'warn':
+            logger.warn(message)
+        elif level == 'error':
+            logger.error(message)
+        elif level == 'debug':
+            logger.debug(message)
 
 
 def main(args=None):
