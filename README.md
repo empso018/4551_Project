@@ -13,6 +13,7 @@ Final project for 4551
 - After cloning this repo, you also need to clone
 - https://github.com/robo-friends/m-explore-ros2
 - into the /color-finder-ros2/src/ folder alongside /color_finder/
+  
 -- Extra setup commands ---
 $ cd <your_ros2_ws>/src
 $ git clone https://github.com/robo-friends/m-explore-ros2.git
