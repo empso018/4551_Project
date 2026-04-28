@@ -1,33 +1,33 @@
-# 4551_Project
-Final project for 4551
+# 4551_Project   
+Final project for 4551   
 
----Project Description---
-* ROS2 system
-* Utilizes SLAM and Nav2 packages from ros
-* Implemented color finding logic as nodes
-* Robot looks for colored objects, and remembers their location as it searches for and
-* pursues a currently targeted color. When it has previously seen the currently targeted
-* color, it attempts to return to that area to find it.
+---Project Description---   
+* ROS2 system   
+* Utilizes SLAM and Nav2 packages from ros   
+* Implemented color finding logic as nodes   
+* Robot looks for colored objects, and remembers their location as it searches for and   
+* pursues a currently targeted color. When it has previously seen the currently targeted   
+* color, it attempts to return to that area to find it.   
 
---- Setup Requirements ---
-- After cloning this repo, you also need to clone
-- https://github.com/robo-friends/m-explore-ros2
-- into the /color-finder-ros2/src/ folder alongside /color_finder/
-  
--- Extra setup commands ---
-$ cd <your_ros2_ws>/src
-$ git clone https://github.com/robo-friends/m-explore-ros2.git
+--- Setup Requirements ---   
+- After cloning this repo, you also need to clone   
+- https://github.com/robo-friends/m-explore-ros2   
+- into the /color-finder-ros2/src/ folder alongside /color_finder/   
 
+Extra setup commands:   
+$ cd <your_ros2_ws>/src   
+$ git clone https://github.com/robo-friends/m-explore-ros2.git   
 
-To initialize workspace:
-$ colcon build
-$ source install/setup.bash
+To initialize workspace:   
+$ colcon build   
+$ source install/setup.bash   
 
----How to Run---
-$ ros2 launch color_finder nav2_explore.launch.py
-
-* Rebuild everytime you update the code
-* Source bash everytime you open a new terminal
-
-~/.bashrc file
-* Make sure that file has TURTLEBOT3_MODEL=burger
+---How to Run---   
+$ ros2 launch color_finder nav2_explore.launch.py   
+   
+* Rebuild everytime you update the code   
+* Source bash everytime you open a new terminal   
+   
+~/.bashrc file   
+* Make sure that file has TURTLEBOT3_MODEL=burger   
+   
