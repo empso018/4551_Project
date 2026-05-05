@@ -31,3 +31,21 @@ $ ros2 launch color_finder nav2_explore.launch.py
 ~/.bashrc file   
 * Make sure that file has TURTLEBOT3_MODEL=burger   
    
+
+
+## Testing Notes (Remove Later)
+To test camera use the following commands in different terminals
+- ros2 run ros2_opencv publisher_node
+- ros2 run ros2_opencv subscriber_node
+
+
+## Setup Instructions
+Inside the 4551_Project folder, run the following commands
+### Create venv for python packages
+- python3 -m venv ~/ros2_venv
+- source ~/ros2_venv/bin/activate
+- pip install -r requirements.txt
+- deactivate
+### Build and setup Project
+- source build_ros.sh
+- source setup_ros_env.sh
