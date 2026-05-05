@@ -171,6 +171,20 @@ def generate_launch_description():
         }.items()
     )
 
+    camera = Node(
+        package='color_finder',
+        executable='camera',
+        name='camera_node',
+        output='screen'
+    )
+
+    ocr = Node(
+        package='color_finder',
+        executable='ocr',
+        name='ocr_node',
+        output='screen'
+    )
+
     target_color = Node(
         package='color_finder',
         executable='target_color',
@@ -245,6 +259,8 @@ def generate_launch_description():
         slam,
         nav2,
 
+        camera,
+        ocr,
         target_color,
         color_detector,
         color_approach,

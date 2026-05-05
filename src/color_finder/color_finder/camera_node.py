@@ -5,16 +5,16 @@ from sensor_msgs.msg import Image
 from rclpy.node import Node
 from cv_bridge import CvBridge
 
-class PublisherNode(Node):
+class CameraNode(Node):
     def __init__(self):
-        super().__init__('publisher_node')
+        super().__init__('camera_node')
 
         self.cameraDeviceNumber=0
         self.camera = cv2.VideoCapture(self.cameraDeviceNumber)
 
         self.bridgeObject = CvBridge()
 
-        self.topicNameFrames='topic_camera_image'
+        self.topicNameFrames='/camera_image'
 
         self.queueSize=20
 
@@ -26,7 +26,7 @@ class PublisherNode(Node):
         self.timer = self.create_timer(self.periodCommunication, self.timer_callbackFunction)
 
         # number of images published
-        self.i = 0
+        # self.i = 0
 
     def timer_callbackFunction(self):
 
@@ -37,12 +37,12 @@ class PublisherNode(Node):
             Ros2ImageMessage = self.bridgeObject.cv2_to_imgmsg(frame)
             self.publisher.publish(Ros2ImageMessage)
 
-        self.get_logger().info('Publishing image number %d' % self.i)
-        self.i += 1
+        # self.get_logger().info('Publishing image number %d' % self.i)
+        # self.i += 1
 
 def main(args=None):
     rclpy.init(args=args)
-    publisherObject = PublisherNode()
+    publisherObject = CameraNode()
     rclpy.spin(publisherObject)
     publisherObject.destroy_node()
     rclpy.shutdown()

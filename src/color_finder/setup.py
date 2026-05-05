@@ -56,6 +56,8 @@ setup(
             'waypoint_search = color_finder.waypoint_search_node:main',
             'color_approach = color_finder.color_approach_node:main',
             'cube_locator = color_finder.cube_locator_node:main',
+            'camera = color_finder.camera_node:main',
+            'ocr = color_finder.ocr_node:main'
         ],
     },
 )

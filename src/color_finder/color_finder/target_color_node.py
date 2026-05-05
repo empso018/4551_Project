@@ -15,6 +15,26 @@ class TargetColorNode(Node):
         self.create_subscription(Bool, '/object_reached', self.object_reached_callback, 10)
         self.timer = self.create_timer(1.0, self.publish_color)
 
+        self.topicNameText = '/ocr_text'
+        self.queueSize = 20
+
+        self.create_subscription(
+            String,
+            self.topicNameText,
+            self.set_target_color,
+            self.queueSize
+        )
+
+    def set_target_color(self, msg):
+        color_text = msg.data.lower()
+
+        if (not color_text in self.colors) or (color_text == self.current_color):
+            return
+        
+        self.get_logger().info(f'Recived new target color: {color_text}')
+        self.current_color = color_text
+        self.publish_color()
+
     def publish_color(self):
         msg = String()
         msg.data = self.current_color
