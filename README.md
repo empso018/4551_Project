@@ -40,6 +40,7 @@ $ deactivate
 ### Step 2 - Build Project  
 $ ./build_ros.sh  
 ### Step 3 - Source the runtime env (do this for every new terminal)  
+$ cd ~/4551_Project  
 $ source setup_ros_env.sh  
 Note: This sources ros2, the ws overlay, the venv, and exports TURTLEBOT3_MODEL=burger  
   
