@@ -19,7 +19,9 @@ Final project for 4551
 This step is to set up the ROS2 libraries and dependencies that are already on the CSE lab computers,
 such as for running this project on a home Ubuntu 24.04 computer. Sudo permissions are required.  
   
-Run this command in a terminal:  
+These commands will download the ROS2 setup script and run it:  
+$ curl -fsSL -o bootstrap_system.sh https://raw.githubusercontent.com/empso018/4551_Project/main/bootstrap_system.sh  
+$ hmod +x bootstrap_system.sh  
 $ ./bootstrap_system.sh  
   
 ### Step 1 - Clone and create venv  
