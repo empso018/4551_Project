@@ -1,48 +1,59 @@
 # 4551_Project   
 Final project for 4551   
-
----Project Description---   
+  
+## --- Project Description ---   
 * ROS2 system   
 * Utilizes SLAM and Nav2 packages from ros   
-* Uses camera and tesseract ocr to select target color
+* Uses camera and tesseract ocr to select target color  
 * Implemented color finding logic as nodes   
 * Robot looks for colored objects, and remembers their location as it searches for and pursues a currently targeted color. 
 * When it has previously seen the currently targeted color, it attempts to return to that area to find it.   
 
---- Setup Requirements ---   
-- Have flashcards/sheets of paper with the words "red", "yellow", "blue", and "green" on them (case insensitive) (not provided)
-- Must have the tesseract package installed (may have different name depending on OS)
-- After cloning this repo, you also need to clone   
-- https://github.com/robo-friends/m-explore-ros2   
-- into the /color-finder-ros2/src/ folder alongside /color_finder/   
-
-## Setup Instructions
-Inside the 4551_Project folder, run the following commands
-### Download m explore
-$ cd <your_ros2_ws>/src  
+## --- Other Requirements ---   
+- Have flashcards/sheets of paper with the words "red", "yellow", "blue", and "green" on them (case insensitive) (not provided)  
+- Follow the setup instructions below step-by-step. If you go out of order, you will have errors.  
+  
+## --- Setup Instructions ---  
+  
+### Step 0 (for non-lab computers only)  
+This step is to set up the ROS2 libraries and dependencies that are already on the CSE lab computers,
+such as for running this project on a home Ubuntu 24.04 computer. Sudo permissions are required.  
+  
+Run this command in a terminal:  
+$ ./bootstrap_system.sh  
+  
+### Step 1 - Clone and create venv  
+Note: while we use "~/4551_Project" as the workspace (WS) directory, this will work from any directory you clone into.  
+#### a) Download the project files from github  
+$ git clone https://github.com/empso018/4551_Project.git ~/4551_Project/  
+#### b) Download m explore files from github  
+$ cd ~/4551_Project/src  
 $ git clone https://github.com/robo-friends/m-explore-ros2.git  
-$ cd ..
-### Create venv for python packages  
-$ python3 -m venv ~/ros2_venv  
+$ cd ..  
+#### c) Create venv for python packages  
+$ python3 -m venv --system-site-packages ~/ros2_venv  
 $ source ~/ros2_venv/bin/activate  
 $ pip install -r requirements.txt  
-$ deactivate
-### Build and setup project
-$ source build_ros.sh  
+$ deactivate  
+### Step 2 - Build Project  
+$ ./build_ros.sh  
+### Step 3 - Source the runtime env (do this for every new terminal)  
 $ source setup_ros_env.sh  
-Note: setup_ros_env assumes your workspace is named '4551_Project'
-
----How to Run---   
+Note: This sources ros2, the ws overlay, the venv, and exports TURTLEBOT3_MODEL=burger  
+  
+## --- How to Run ---   
 $ ros2 launch color_finder nav2_explore.launch.py   
    
 * Rebuild everytime you update the code   
-* Source bash everytime you open a new terminal   
+* Do step 3 everytime you open a new terminal   
    
-~/.bashrc file   
-* Make sure that file has TURTLEBOT3_MODEL=burger   
 
-
-## User Instructions
-- Upon startup and when finding the target color, a new target color will be randomly selected
-- To change the target color manually, show the flashcard of the color you want to target to the camera
-- If the color doesn't change, make sure the flashcard is close to the camera and blocks out most of the background while still being readable on the video feed
+## --- User Instructions ---  
+- Upon startup and when finding the target color, a new target color will be randomly selected  
+- To change the target color manually, show the flashcard of the color you want to target to the camera  
+- If the color doesn't change, make sure the flashcard is close to the camera and blocks out most of the background while still being readable on the video feed  
+  
+## --- Troubleshooting ---  
+**If the Build fails with "em.TransientParseError: not enough data to read", "ModuleNotFoundError: No module named 'lark'", or "Could NOT find Python3 (missing: NumPy)"**  
+Then the venv was likely run without "-system-site-packages" in Step 1c. Those packages are present in the system from ROS2, but that part of the command must be included so the venv can see/use them.  
+  
