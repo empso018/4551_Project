@@ -217,17 +217,15 @@ def generate_launch_description():
         parameters=[{'use_sim_time': True}]
     )
 
-    explore = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(
-                explore_lite_dir,
-                'launch',
-                'explore.launch.py'
-            )
-        ),
-        launch_arguments={
-            'use_sim_time': 'true'
-        }.items()
+    explore_params_file = os.path.join(color_finder_dir, 'config', 'explore_params.yaml')
+    
+    explore = Node(
+        package='explore_lite',
+        executable='explore',
+        name='explore_node',
+        parameters=[explore_params_file, {'use_sim_time': True}],
+        remappings=[('/tf', 'tf'), ('/tf_static', 'tf_static')],
+        output='screen'
     )
 
     colored_cubes = TimerAction(
