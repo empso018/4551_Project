@@ -25,7 +25,7 @@ $ hmod +x bootstrap_system.sh
 $ ./bootstrap_system.sh  
   
 ### Step 1 - Clone and create venv  
-Note: while we use "~/4551_Project" as the workspace (WS) directory, this will work from any directory you clone into.  
+Note: while we use "~/4551_Project" as the workspace (WS) directory, this will work from any directory you clone into. "/4551_Project" should not exist already relative to your working directory, so delete this folder if it is present and you want to start fresh.   
 #### a) Download the project files from github  
 $ git clone https://github.com/empso018/4551_Project.git ~/4551_Project/  
 #### b) Download m explore files from github  
