@@ -1,2 +1,3 @@
+#!/usr/bin/env bash
 source /opt/ros/jazzy/setup.bash
-colcon build
+colcon build --symlink-install "$@"
