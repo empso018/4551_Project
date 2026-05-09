@@ -55,6 +55,7 @@ def generate_launch_description():
 
     nav2_params_file = os.path.join(color_finder_dir, 'config', 'nav2_params.yaml')
     slam_params_file = os.path.join(color_finder_dir, 'config', 'slam_params.yaml')
+    rviz_config = os.path.join(nav2_bringup_dir, 'rviz', 'nav2_default_view.rviz')
 
     world = os.path.join(
         turtlebot3_gazebo_dir,
@@ -170,6 +171,15 @@ def generate_launch_description():
             'params_file': nav2_params_file,
         }.items()
     )
+    
+    rviz = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        arguments=['-d', rviz_config],
+        parameters=[{'use_sim_time': True}],
+        output='screen'
+    )
 
     camera = Node(
         package='color_finder',
@@ -256,6 +266,7 @@ def generate_launch_description():
 
         slam,
         nav2,
+        rviz,
 
         camera,
         ocr,
