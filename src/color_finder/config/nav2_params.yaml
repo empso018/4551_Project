@@ -246,8 +246,8 @@ global_costmap:
       # the static_layer auto-resizes the costmap to /map and explore_lite
       # can only find frontiers within the small SLAM-mapped region.
       rolling_window: true
-      width: 20
-      height: 20
+      width: 40
+      height: 40
       # Match local_costmap
       transform_tolerance: 1.0
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
