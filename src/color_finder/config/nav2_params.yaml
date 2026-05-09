@@ -103,14 +103,14 @@ controller_server:
       ax_min: -3.0
       ay_max: 3.0
       ay_min: -3.0
-      az_max: 3.5
+      az_max: 2.0
       vx_std: 0.2
       vy_std: 0.2
-      wz_std: 0.4
+      wz_std: 0.3
       vx_max: 0.5
       vx_min: -0.35
       vy_max: 0.5
-      wz_max: 1.9
+      wz_max: 1.0
       iteration_count: 1
       prune_distance: 1.7
       transform_tolerance: 1.0
@@ -202,8 +202,8 @@ local_costmap:
       plugins: ["voxel_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 2.0
-        inflation_radius: 0.20
+        cost_scaling_factor: 3.0
+        inflation_radius: 0.12
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
