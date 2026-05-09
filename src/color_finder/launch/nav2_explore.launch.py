@@ -55,7 +55,7 @@ def generate_launch_description():
 
     nav2_params_file = os.path.join(color_finder_dir, 'config', 'nav2_params.yaml')
     slam_params_file = os.path.join(color_finder_dir, 'config', 'slam_params.yaml')
-    rviz_config = os.path.join(nav2_bringup_dir, 'rviz', 'nav2_default_view.rviz')
+    rviz_config = os.path.join(color_finder_dir, 'rviz', 'explore.rviz')
 
     world = os.path.join(
         turtlebot3_gazebo_dir,
