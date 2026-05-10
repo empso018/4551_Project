@@ -8,8 +8,8 @@ source /opt/ros/jazzy/setup.bash
 # Source workspace
 source "$WS_DIR/install/setup.bash"
 
-# Source the venv
-source "$HOME/ros2_venv/bin/activate"
+# Add virtualenv packages
+export PYTHONPATH=$HOME/ros2_venv/lib/python3.12/site-packages:$PYTHONPATH
 
 # Need the burger bot
 export TURTLEBOT3_MODEL=burger
