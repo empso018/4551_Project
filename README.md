@@ -59,4 +59,8 @@ $ ros2 launch color_finder nav2_explore.launch.py
 ## --- Troubleshooting ---  
 **If the Build fails with "em.TransientParseError: not enough data to read", "ModuleNotFoundError: No module named 'lark'", or "Could NOT find Python3 (missing: NumPy)"**  
 Then the venv was likely run without "-system-site-packages" in Step 1c. Those packages are present in the system from ROS2, but that part of the command must be included so the venv can see/use them.  
-  
+
+**You can use these two commands to completely clear the local environment to rebuild it fresh from this repo:**  
+(aka to start over from step 1a)  
+$ rm -rf ~/ros2_venv  
+$ rm -rf ~/4551_Project/build ~/4551_Project/install ~/4551_Project/log  
