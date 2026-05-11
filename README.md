@@ -65,3 +65,4 @@ Then the venv was likely run without "-system-site-packages" in Step 1c. Those p
 $ rm -rf ~/ros2_venv  
 $ rm -rf ~/4551_Project/build ~/4551_Project/install ~/4551_Project/log  
 $ rm -rf ~/4551_Project  
+$ cd ~  
