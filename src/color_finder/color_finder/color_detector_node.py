@@ -35,8 +35,6 @@ class ColorDetectorNode(Node):
         self.object_found_pub = self.create_publisher(Bool, '/object_found', 10)
         self.object_position_pub = self.create_publisher(Point, '/object_position', 10)
 
-        self.image_pub = self.create_publisher(Image, '/color_detector/visualization', 10)
-
         self.sighting_pubs = {
             color: self.create_publisher(PointStamped, f'/cube_sightings/{color}', 10)
             for color in COLORS
@@ -71,8 +69,6 @@ class ColorDetectorNode(Node):
                 target_detection = detection
 
         self._publish_target_status(target_detection)
-
-        self.image_pub.publish(self.bridge.cv2_to_imgmsg(annotated_frame, encoding='bgr8'))
 
     def _detect(self, hsv, color, image_width, image_height):
         mask = self.get_color_mask(hsv, color)
