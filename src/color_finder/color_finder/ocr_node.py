@@ -42,8 +42,9 @@ class SubscriberNode(Node):
 
         openCVImage = self.bridgeObject.imgmsg_to_cv2(imageMessage)
 
-        cv2.imshow("Camera video", openCVImage)
-        cv2.waitKey(1)
+        # Added this vizualization/output in RViz to consolidate the windows
+        #cv2.imshow("Camera video", openCVImage)
+        #cv2.waitKey(1)
 
         now = time.time()
 
