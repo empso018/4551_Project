@@ -12,8 +12,12 @@ from geometry_msgs.msg import PointStamped, PoseStamped
 from sensor_msgs.msg import LaserScan
 from std_msgs.msg import Bool, ColorRGBA, String
 from visualization_msgs.msg import Marker, MarkerArray
+from action_msgs.msg import GoalStatus
 from nav2_msgs.action import NavigateToPose
 
+# Keep this distance from the cube when sending a nav2 goal so that the bot doesn't try to 
+# get stuck inside the cube's high costmap area.
+PURSUIT_STANDOFF = 0.5
 
 COLORS = ('red', 'blue', 'green', 'yellow')
 
@@ -181,9 +185,12 @@ class CubeLocatorNode(Node):
             return
 
         pos = self.cube_positions[color]
+        goal_x, goal_y, heading = self._standoff_goal(pos.point.x, pos.point.y)
+        
         self.get_logger().info(
             f'Pursuing remembered {color} cube at '
             f'({pos.point.x:.2f}, {pos.point.y:.2f}).'
+            f'goal at ({goal_x:.2f}, {goal_y:.2f}).'
         )
 
         self.set_explore_resume(False)
@@ -192,12 +199,32 @@ class CubeLocatorNode(Node):
         goal.pose = PoseStamped()
         goal.pose.header.frame_id = 'map'
         goal.pose.header.stamp = self.get_clock().now().to_msg()
-        goal.pose.pose.position.x = pos.point.x
-        goal.pose.pose.position.y = pos.point.y
-        goal.pose.pose.orientation.w = 1.0
+        goal.pose.pose.position.x = goal_x
+        goal.pose.pose.position.y = goal_y
+        goal.pose.pose.orientation.z = math.sin(heading / 2.0)
+        goal.pose.pose.orientation.w = math.cos(heading / 2.0)
 
         future = self.nav_client.send_goal_async(goal)
         future.add_done_callback(self.goal_response_callback)
+
+    # This is making a goal that is a small distance away from the cube instead of on the cube to prevent
+    # the robot from getting stuck on it.
+    def _standoff_goal(self, cube_x, cube_y):
+
+        try:
+            tf = self.tf_buffer.lookup_transform('map', 'base_link', rclpy.time.Time(), timeout=Duration(seconds=0.2))
+        except (tf2_ros.LookupException, tf2_ros.ConnectivityException,tf2_ros.ExtrapolationException):
+            return cube_x, cube_y, 0.0
+        rx = tf.transform.translation.x
+        tx = tf.transform.translation.y
+        dx = rx - cube_x
+        dy = ry - cube_y
+        distance = math.hypot(dx, dy)
+        heading = math.atan2(-dy, -dx) 
+
+    if distance < PURSUIT_STANDOFF:
+        return cube_x + (dx * factor), cube_y + (dy * factor), heading
+        
 
     def goal_response_callback(self, future):
         goal_handle = future.result()
@@ -210,8 +237,17 @@ class CubeLocatorNode(Node):
         result_future = goal_handle.get_result_async()
         result_future.add_done_callback(self.goal_result_callback)
 
+    # Resume exploration
     def goal_result_callback(self, future):
         self.pursuit_goal_handle = None
+        status = future.result().status
+        if status == GoalSatus.STATUS_SUCCEEDED:
+            return
+        self.get_logger().warn(
+            f'Pursuit of {self.current_target} has ended with a status of {status}; '
+            'resuming exploration.'
+        )
+        self.set_explore_resume(True)
 
     def cancel_pursuit(self):
         if self.pursuit_goal_handle is None:
