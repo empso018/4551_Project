@@ -216,17 +216,17 @@ class CubeLocatorNode(Node):
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException,tf2_ros.ExtrapolationException):
             return cube_x, cube_y, 0.0
         rx = tf.transform.translation.x
-        tx = tf.transform.translation.y
+        ry = tf.transform.translation.y
         dx = rx - cube_x
         dy = ry - cube_y
         distance = math.hypot(dx, dy)
         heading = math.atan2(-dy, -dx) 
 
-    if distance <= PURSUIT_STANDOFF:
-        return cube_x, cube_y, heading
+        if distance <= PURSUIT_STANDOFF:
+            return cube_x, cube_y, heading
 
-    factor = PURSUIT_STANDOFF / distance
-    return cube_x + (dx * factor), cube_y + (dy * factor), heading
+        factor = PURSUIT_STANDOFF / distance
+        return cube_x + (dx * factor), cube_y + (dy * factor), heading
 
     def goal_response_callback(self, future):
         goal_handle = future.result()
