@@ -222,9 +222,11 @@ class CubeLocatorNode(Node):
         distance = math.hypot(dx, dy)
         heading = math.atan2(-dy, -dx) 
 
-    if distance < PURSUIT_STANDOFF:
-        return cube_x + (dx * factor), cube_y + (dy * factor), heading
-        
+    if distance <= PURSUIT_STANDOFF:
+        return cube_x, cube_y, heading
+
+    factor = PURSUIT_STANDOFF / distance
+    return cube_x + (dx * factor), cube_y + (dy * factor), heading
 
     def goal_response_callback(self, future):
         goal_handle = future.result()
@@ -241,7 +243,7 @@ class CubeLocatorNode(Node):
     def goal_result_callback(self, future):
         self.pursuit_goal_handle = None
         status = future.result().status
-        if status == GoalSatus.STATUS_SUCCEEDED:
+        if status == GoalStatus.STATUS_SUCCEEDED:
             return
         self.get_logger().warn(
             f'Pursuit of {self.current_target} has ended with a status of {status}; '
